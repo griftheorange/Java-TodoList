@@ -4,6 +4,7 @@ import com.griffinpoole.todolist.datamodel.TodoData;
 import com.griffinpoole.todolist.datamodel.TodoItem;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,22 +36,11 @@ public class Controller {
     private BorderPane mainBorderPane;
     @FXML
     private ContextMenu listContextMenu;
+    @FXML
+    private ToggleButton filterToggleButton;
 
     public void initialize(){
-//        TodoItem item1 = new TodoItem("Mail birthday card", "Buy a 30th birthday card for John", LocalDate.of(2020, Month.JULY, 15));
-//        TodoItem item2 = new TodoItem("Doctors Appointment", "See Dr. Smith at 123 Main Street. Bring paperwork", LocalDate.of(2020, Month.MAY, 23));
-//        TodoItem item3 = new TodoItem("Finish design proposal for FZ", "Promised FZ I'd storyboard the game by Friday", LocalDate.of(2020, Month.APRIL, 30));
-//        TodoItem item4 = new TodoItem("Feed Willow and Maple", "Need to feed them vegetables, all the vegetables. Growing Guinea Pigs need a whole lot of vegetables", LocalDate.of(2020, Month.APRIL, 20));
-//        TodoItem item5 = new TodoItem("Clean room", "Dishes piling up again, need to bus them downstairs", LocalDate.of(2020, Month.DECEMBER, 15));
-//
-//        todoItems = new ArrayList<>();
-//        todoItems.add(item1);
-//        todoItems.add(item2);
-//        todoItems.add(item3);
-//        todoItems.add(item4);
-//        todoItems.add(item5);
-//
-//        TodoData.getInstance().setTodoItems(todoItems);
+
         listContextMenu = new ContextMenu();
         MenuItem deleteMenuItem = new MenuItem("Delete");
         deleteMenuItem.setOnAction(new EventHandler<ActionEvent>() {
@@ -72,7 +63,15 @@ public class Controller {
             }
         });
 
-        todoListView.setItems(TodoData.getInstance().getTodoItems());
+        SortedList<TodoItem> sortedList = new SortedList<TodoItem>(TodoData.getInstance().getTodoItems(),
+                new Comparator<TodoItem>() {
+                    @Override
+                    public int compare(TodoItem o1, TodoItem o2) {
+                        return o1.getDeadLine().compareTo(o2.getDeadLine());
+                    }
+                });
+
+        todoListView.setItems(sortedList);
         todoListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         todoListView.getSelectionModel().selectFirst();
 
@@ -159,4 +158,12 @@ public class Controller {
          }
     }
 
+    @FXML
+    public void handleFilterButton(){
+        if(filterToggleButton.isSelected()){
+
+        } else {
+
+        }
+    }
 }

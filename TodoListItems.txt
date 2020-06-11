@@ -1,3 +1,4 @@
 Java Server Project	Complete a backend in java to mimic backend for SeisMix but in a more industry standard language	14-04-2021
 Complete TodoList App in Java	Complete a Basic Resume TodoList in Java	07-05-2020
 Schedule Mock Tech Interview	Schedule mock tech interview through flatiron	28-04-2020
+Earliest Task	This task should be first on the list	09-05-2018
